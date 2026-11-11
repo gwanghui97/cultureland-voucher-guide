@@ -34,7 +34,7 @@ export default function Search({ go }) {
             setQuery(e.target.value);
             setNotFound(false);
           }}
-          placeholder="예: 네이버쇼핑, 편의점에서 쓸 수 있어?"
+          placeholder="예: 네이버쇼핑, CU에서 쓸 수 있어?"
           autoComplete="off"
           enterKeyHint="search"
         />
