@@ -1,5 +1,5 @@
-import { PLACES, VOUCHER_TYPES } from '../data.js';
-import { Header } from '../ui.jsx';
+import { PLACES, SEARCH, VOUCHER_TYPES } from '../data.js';
+import { ActionButton, Header } from '../ui.jsx';
 
 export default function TypePick({ state, go }) {
   const place = PLACES.find((p) => p.id === state.placeId);
@@ -8,9 +8,7 @@ export default function TypePick({ state, go }) {
       <main className="screen">
         <Header title="상품권 종류 확인" onBack={() => go('search')} />
         <p className="lead">사용처를 먼저 골라 주세요.</p>
-        <button type="button" className="btn btn-primary btn-block" onClick={() => go('search')}>
-          사용처 찾기
-        </button>
+        <ActionButton action={SEARCH} go={go} primary />
       </main>
     );
   }

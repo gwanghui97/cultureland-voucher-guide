@@ -40,11 +40,14 @@ export const SEARCH = { label: '다른 사용처 찾기', action: 'search' };
 const RETYPE = { label: '받은 상품권 종류 확인하기', action: 'retype' };
 const GO_CU = { label: 'CU에서 쓰기', action: 'goPlace', placeId: 'cu' };
 const CU_RESTRICTED = ['담배', '택배', '상품권', '복권', 'T머니충전'];
+// 안내 화면의 '인식 안 돼요' 도움말. 고객센터 줄은 화면이 CS 로 붙인다
+const HELP_NUMBER = { label: '번호가 인식 안 돼요', tips: ['자릿수와 종류를 다시 확인하세요.', '교환권이면 교환소에서 먼저 교환하세요.'] };
+const HELP_BARCODE = { label: '바코드가 인식 안 돼요', tips: ['계산대에 바코드 번호를 보여 주세요.'] };
 const CU_STORE_NOTE = '가맹점 사정에 따라 다른 결제수단과 함께 결제(복합결제)가 안 될 수 있어요.';
 
 const EXCHANGE_METHOD = {
   id: 'exchange',
-  label: '교환하기',
+  label: '상품권 교환하기',
   steps: [
     '교환: 교환권 번호 입력 → 수신 휴대폰번호 입력 → 컬쳐랜드상품권 수신',
     '받은 상품권 종류 확인하기',
@@ -60,11 +63,12 @@ const APP = {
 export const ROUTES = {
   'naver:integrated': {
     status: 'ok',
-    headline: '사용 가능(전환 경유)',
+    headline: '컬쳐캐쉬 충전 후 Npay 포인트로 전환해 결제해요',
     conditions: ['컬쳐캐쉬 충전 → Npay 전환', '안내 수수료 6%(최종 확인 필요)', '최소 1,000원', '휴대폰 본인인증', '명의 일치', '전환 후 취소 불가', '내부 정책상 당일 전환 가능 금액이 제한될 수 있어요'],
     // max: Npay 포인트 최대 보유 한도 200만원
     fee: { rate: 0.06, min: 1000, max: 2000000, sourceId: 'npayCl' },
     primary: GUIDE,
+    help: HELP_NUMBER,
     methods: [{
       id: 'npay',
       label: 'Npay 포인트 전환',
@@ -76,7 +80,7 @@ export const ROUTES = {
   },
   'naver:offline': {
     status: 'blocked',
-    headline: '이 경로 불가',
+    headline: '오프라인 전용 상품권은 컬쳐캐쉬로 충전할 수 없어요',
     conditions: ['컬쳐캐쉬 충전 불가'],
     primary: GO_CU,
     methods: [],
@@ -86,10 +90,11 @@ export const ROUTES = {
   },
   'naver:exchange': {
     status: 'via',
-    headline: '교환 먼저',
+    headline: '교환소에서 상품권으로 먼저 교환해요',
     conditions: ['교환소에서 교환', '수령한 상품권 종류를 다시 확인'],
     primary: { label: '상품권 교환하기', action: 'guide' },
     methods: [EXCHANGE_METHOD],
+    help: HELP_NUMBER,
     next: RETYPE,
     sourceIds: ['faq'],
   },
@@ -108,34 +113,37 @@ export const ROUTES = {
   },
   'cu:integrated': {
     status: 'ok',
-    headline: '사용 가능(2가지 방법)',
+    headline: '상품권 바코드나 앱 바코드로 결제해요',
     conditions: [CU_STORE_NOTE],
     primary: GUIDE,
     methods: [BARCODE, APP],
+    help: HELP_BARCODE,
     restricted: CU_RESTRICTED,
     sourceIds: ['cuHelp', 'appBarcode'],
   },
   'cu:offline': {
     status: 'ok',
-    headline: '사용 가능(상품권 바코드만)',
+    headline: '상품권 바코드로 결제해요',
     conditions: ['오프라인 전용 상품권은 컬쳐캐쉬 충전이 안 돼요', '상품권 바코드로 CU에서 결제', CU_STORE_NOTE],
     primary: GUIDE,
     methods: [BARCODE],
+    help: HELP_BARCODE,
     restricted: CU_RESTRICTED,
     sourceIds: ['cuHelp'],
   },
   'cu:exchange': {
     status: 'via',
-    headline: '교환 먼저',
+    headline: '교환소에서 상품권으로 먼저 교환해요',
     conditions: ['교환 후 수령한 상품권 종류 재확인', '모든 교환권이 CU 결제 가능 상품권이 된다고 가정하지 않음'],
     primary: { label: '상품권 교환하기', action: 'guide' },
     methods: [EXCHANGE_METHOD],
+    help: HELP_NUMBER,
     next: RETYPE,
     sourceIds: ['faq'],
   },
   'cu:gift18': {
     status: 'unverified',
-    headline: '미확인',
+    headline: '발행사 공식 안내로 확인해 주세요',
     conditions: ['발행사 공식 안내를 확인하세요'],
     primary: { label: '공식 발행사에서 확인하기', action: 'external', url: SOURCES.gift18.url },
     secondary: SEARCH,

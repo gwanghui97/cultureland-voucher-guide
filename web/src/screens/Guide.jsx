@@ -110,12 +110,11 @@ export default function Guide({ state, go }) {
           aria-controls="guide-help"
           onClick={() => setAskHelp((v) => !v)}
         >
-          번호가 인식 안 돼요
+          {route.help.label}
         </button>
         {askHelp ? (
           <div id="guide-help" className="notice stack tight">
-            <p>자릿수와 종류를 다시 확인하세요.</p>
-            <p>교환권이면 교환소에서 먼저 교환하세요.</p>
+            {route.help.tips.map((t) => <p key={t}>{t}</p>)}
             <a className="link" href={`tel:${CS.tel}`}>{CS.label}</a>
           </div>
         ) : null}

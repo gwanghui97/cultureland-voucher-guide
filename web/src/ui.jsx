@@ -24,7 +24,7 @@ export function Badge({ kind, children }) {
   return <span className={`badge badge-${kind}`}>{children}</span>;
 }
 
-export function SourceLine({ sourceIds = [] }) {
+export function SourceLine({ sourceIds = [], hideUnverified = false }) {
   const items = sourceIds.map((id) => SOURCES[id]).filter(Boolean);
   if (items.length === 0) return null;
   return (
@@ -41,7 +41,7 @@ export function SourceLine({ sourceIds = [] }) {
             </>
           ) : null}
           {s.status === 'changed' ? <Badge kind="changed">과거 공지와 차이</Badge> : null}
-          {s.status === 'unverified' ? <Badge kind="unverified">미확인</Badge> : null}
+          {s.status === 'unverified' && !hideUnverified ? <Badge kind="unverified">미확인</Badge> : null}
         </p>
       ))}
     </div>

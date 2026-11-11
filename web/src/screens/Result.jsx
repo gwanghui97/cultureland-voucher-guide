@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PLACES, VOUCHER_TYPES } from '../data.js';
+import { PLACES, SEARCH, VOUCHER_TYPES } from '../data.js';
 import { calcPoints, getRoute } from '../logic.js';
 import { ActionButton, Badge, Header, RestrictedBox, SourceLine } from '../ui.jsx';
 
@@ -60,9 +60,7 @@ export default function Result({ state, go }) {
       <main className="screen">
         <Header title="가능 여부" onBack={() => go('type')} />
         <p className="lead">사용처와 상품권 종류를 먼저 골라 주세요.</p>
-        <button type="button" className="btn btn-primary btn-block" onClick={() => go('search')}>
-          사용처 찾기
-        </button>
+        <ActionButton action={SEARCH} go={go} primary />
       </main>
     );
   }
@@ -97,7 +95,8 @@ export default function Result({ state, go }) {
             <li key={c}>{c}</li>
           ))}
         </ul>
-        <SourceLine sourceIds={route.sourceIds} />
+        {/* 상태 배지가 이미 미확인이면 출처 줄에서 다시 달지 않는다 */}
+        <SourceLine sourceIds={route.sourceIds} hideUnverified={route.status === 'unverified'} />
       </section>
 
       {route.fee ? <FeeCalc fee={route.fee} /> : null}
