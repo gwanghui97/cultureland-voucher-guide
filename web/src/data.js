@@ -10,7 +10,11 @@ export const SOURCES = {
   gift18: { id: 'gift18', name: '(주)문화상품권 Npay 전환', url: 'https://www.culturegift.co.kr/conversion/', checkedAt: CHECKED, status: 'unverified', note: '발행사 전환 페이지에서 Npay 수수료·한도 문장을 찾지 못함' },
   cuHelp: { id: 'cuHelp', name: '컬쳐랜드 상품권 도움말', url: 'https://www.cultureland.co.kr/customer/help/serviceHelp.do?class1=1&class2=1', checkedAt: CHECKED, status: 'confirmed' },
   appBarcode: { id: 'appBarcode', name: '컬쳐랜드 앱 바코드 도움말', url: 'https://www.cultureland.co.kr/customer/help/serviceHelp.do?class1=2&class2=7', checkedAt: CHECKED, status: 'confirmed' },
+  // url 확인 중. 찾으면 채우고 status 를 바꾼다
+  npayEnd: { id: 'npayEnd', name: '네이버페이 공지(문화상품권 전환 종료)', url: null, checkedAt: CHECKED, status: 'unverified' },
 };
+
+export const CS = { tel: '15772111', label: '고객센터 1577-2111 (평일 08:00~17:00)' };
 
 export const PLACES = [
   { id: 'naver', name: '네이버쇼핑', channel: '온라인', category: '쇼핑', intro: 'Npay를 통한 사용 경로가 있어요. 갖고 계신 상품권을 확인해 볼까요?', aliases: ['네이버쇼핑', '네이버', 'naver', '스마트스토어', 'npay', 'n페이', '네이버페이'] },
@@ -24,10 +28,10 @@ export const CATEGORY_CHIPS = [
 ];
 
 export const VOUCHER_TYPES = [
-  { id: 'integrated', name: '통합형 컬쳐랜드상품권', digits: 16, hint: '16자리 컬쳐랜드상품권' },
-  { id: 'offline', name: '오프라인 전용 컬쳐랜드상품권', digits: 16, hint: '16자리 컬쳐랜드상품권' },
-  { id: 'exchange', name: '교환권', digits: 12, hint: '12자리 교환권 (헌혈기념품 등 12자리 예외 있음)' },
-  { id: 'gift18', name: '지류·온라인 문화상품권', digits: 18, hint: '18자리 지류·온라인 문화상품권', otherIssuer: '타 발행사 공식 경로' },
+  { id: 'integrated', name: '통합형 컬쳐랜드상품권', digits: 16, hint: '보통 16자리 컬쳐랜드상품권' },
+  { id: 'offline', name: '오프라인 전용 컬쳐랜드상품권', digits: 16, hint: '보통 16자리 컬쳐랜드상품권' },
+  { id: 'exchange', name: '교환권', digits: 12, hint: '보통 12자리 교환권' },
+  { id: 'gift18', name: '지류·온라인 문화상품권', digits: 18, hint: '보통 18자리 지류·온라인 문화상품권', otherIssuer: '타 발행사 공식 경로' },
 ];
 
 const GUIDE = { label: '사용 방법 보기', action: 'guide' };
@@ -40,7 +44,7 @@ const EXCHANGE_METHOD = {
   id: 'exchange',
   label: '교환하기',
   steps: [
-    '교환: 교환권 번호 입력 → 수신 휴대폰번호 입력 → 상품권 수신(알림톡/문자)',
+    '교환: 교환권 번호 입력 → 수신 휴대폰번호 입력 → 컬쳐랜드상품권 수신',
     '받은 상품권 종류 확인하기',
   ],
 };
@@ -55,15 +59,16 @@ export const ROUTES = {
   'naver:integrated': {
     status: 'ok',
     headline: '사용 가능(전환 경유)',
-    conditions: ['컬쳐캐쉬 충전 → Npay 전환', '안내 수수료 6%(최종 확인 필요)', '최소 1,000원', '휴대폰 본인인증', '명의 일치', '전환 후 취소 불가'],
-    fee: { rate: 0.06, min: 1000, sourceId: 'npayCl' },
+    conditions: ['컬쳐캐쉬 충전 → Npay 전환', '안내 수수료 6%(최종 확인 필요)', '최소 1,000원', '휴대폰 본인인증', '명의 일치', '전환 후 취소 불가', '내부 정책상 당일 전환 가능 금액이 제한될 수 있어요'],
+    // max: Npay 포인트 최대 보유 한도 200만원
+    fee: { rate: 0.06, min: 1000, max: 2000000, sourceId: 'npayCl' },
     primary: GUIDE,
     // 맞춤 안내 화면의 주 버튼 '지금 충전하러 가기'(시연 화면)
     demoCharge: true,
     methods: [{
       id: 'npay',
       label: 'Npay 포인트 전환',
-      steps: ['컬쳐랜드 앱 충전(PIN 입력 또는 상품권 속 바로충전 링크)', 'Npay 포인트 전환', '네이버쇼핑 결제 시 포인트 사용'],
+      steps: ['컬쳐랜드 앱 충전(PIN 입력)','Npay 포인트 전환', '네이버쇼핑 결제 시 포인트 사용'],
     }],
     sourceIds: ['npayCl', 'npayNotice'],
   },
@@ -75,7 +80,7 @@ export const ROUTES = {
     methods: [],
     next: GO_CU,
     secondary: { label: '다른 사용처 찾기', action: 'search' },
-    sourceIds: ['faq'],
+    sourceIds: ['cuHelp'],
   },
   'naver:exchange': {
     status: 'via',
@@ -87,17 +92,17 @@ export const ROUTES = {
     sourceIds: ['faq'],
   },
   'naver:gift18': {
-    status: 'ok',
-    headline: '다른 공식 경로 있음',
-    conditions: ['컬쳐랜드 충전 불가', '(주)문화상품권에서 Npay 직접 전환', '수수료 6.5%', '일 20만원·월 50만원 한도'],
-    fee: { rate: 0.065, min: null, sourceId: 'gift18' },
-    primary: GUIDE,
-    methods: [{
-      id: 'npay18',
-      label: '(주)문화상품권 Npay 전환',
-      steps: ['(주)문화상품권에서 Npay 포인트로 직접 전환', '네이버쇼핑 결제 시 포인트 사용'],
-    }],
-    sourceIds: ['gift18', 'faq'],
+    status: 'blocked',
+    headline: '네이버페이 전환 서비스가 종료되었어요',
+    conditions: [
+      '18자리 문화상품권은 2025년 3월 31일 이후 Npay 포인트 전환 서비스를 이용할 수 없어요',
+      '컬쳐랜드 충전도 안 돼요(지류/온라인문화상품권은 컬쳐캐쉬로 충전 불가)',
+      '다른 사용처는 발행사 홈페이지에서 확인하세요',
+    ],
+    primary: { label: '다른 사용처 찾기', action: 'search' },
+    secondary: { label: '발행사 공식 사용처 확인', action: 'external', url: 'https://www.culturegift.co.kr/' },
+    methods: [],
+    sourceIds: ['npayEnd', 'faq'],
   },
   'cu:integrated': {
     status: 'ok',

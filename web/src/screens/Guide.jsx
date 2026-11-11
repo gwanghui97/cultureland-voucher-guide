@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PLACES, VOUCHER_TYPES } from '../data.js';
+import { CS, PLACES, VOUCHER_TYPES } from '../data.js';
 import { getRoute } from '../logic.js';
 import { ActionButton, Header, RestrictedBox, SourceLine } from '../ui.jsx';
 
@@ -115,7 +115,7 @@ export default function Guide({ state, go }) {
           <div id="guide-help" className="notice stack tight">
             <p>자릿수와 종류를 다시 확인하세요.</p>
             <p>교환권이면 교환소에서 먼저 교환하세요.</p>
-            <a className="link" href="tel:15772111">고객센터 1577-2111</a>
+            <a className="link" href={`tel:${CS.tel}`}>{CS.label}</a>
           </div>
         ) : null}
 

@@ -32,7 +32,7 @@ test('branch rules', () => {
   assert.equal(getRoute('cu', 'exchange').next.action, 'retype');
   const EXPECT = {
     'naver:integrated': ['ok', 'guide'], 'naver:offline': ['blocked', 'goPlace'],
-    'naver:exchange': ['via', 'guide'], 'naver:gift18': ['ok', 'guide'],
+    'naver:exchange': ['via', 'guide'], 'naver:gift18': ['blocked', 'search'],
     'cu:integrated': ['ok', 'guide'], 'cu:offline': ['ok', 'guide'],
     'cu:exchange': ['via', 'guide'], 'cu:gift18': ['unverified', 'external'],
   };
@@ -44,14 +44,16 @@ test('branch rules', () => {
   assert.equal(getRoute('cu', 'gift18').methods.length, 0);
   assert.deepEqual(getRoute('cu', 'integrated').methods.map(m => m.id), ['barcode', 'app']);
   assert.equal(getRoute('naver', 'integrated').fee.rate, 0.06);
-  assert.equal(getRoute('naver', 'gift18').fee.rate, 0.065);
+  assert.equal(getRoute('naver', 'gift18').fee, undefined);
+  assert.equal(getRoute('naver', 'gift18').methods.length, 0);
+  assert.ok(getRoute('naver', 'gift18').sourceIds.includes('npayEnd'));
   assert.deepEqual(getRoute('cu', 'offline').methods.map(m => m.id), ['barcode']);
   assert.equal(getRoute('cu', 'gift18').status, 'unverified');
 });
 test('every combo: methods ids and next', () => {
   const EXPECT = {
     'naver:integrated': [['npay'], undefined], 'naver:offline': [[], 'goPlace'],
-    'naver:exchange': [['exchange'], 'retype'], 'naver:gift18': [['npay18'], undefined],
+    'naver:exchange': [['exchange'], 'retype'], 'naver:gift18': [[], undefined],
     'cu:integrated': [['barcode', 'app'], undefined], 'cu:offline': [['barcode'], undefined],
     'cu:exchange': [['exchange'], 'retype'], 'cu:gift18': [[], undefined],
   };
@@ -80,4 +82,12 @@ test('facts match official sources (fact-check 2026-11-11)', () => {
   assert.equal(SOURCES.gift18.status, 'unverified');
   assert.deepEqual(getRoute('cu', 'integrated').restricted, ['담배', '택배', '상품권', '복권', 'T머니충전']);
   for (const s of Object.values(SOURCES)) assert.equal(s.checkedAt, '2026-11-11', s.id);
+});
+test('review fixes 2026-11-11', () => {
+  const all = JSON.stringify(ROUTES);
+  for (const bad of ['바로충전 링크', '알림톡', '헌혈기념품', '6.5%', '20만']) assert.ok(!all.includes(bad), bad);
+  assert.ok(getRoute('naver', 'offline').sourceIds.includes('cuHelp'));
+  assert.ok(getRoute('naver', 'integrated').conditions.some(c => c.includes('당일 전환')));
+  assert.equal(SOURCES.npayEnd.checkedAt, '2026-11-11');
+  assert.equal(calcPoints(1e12, { rate: 0.06, min: 1000 }), null); // upper bound
 });

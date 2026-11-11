@@ -21,6 +21,7 @@ function FeeCalc({ fee }) {
   if (points != null) message = `${points.toLocaleString('ko-KR')}P (수수료 ${percent(fee.rate)}%)`;
   // 1000.5 처럼 최소 금액은 넘지만 정수가 아닌 값은 '정확히' 문구로
   else if (fee.min != null && !(amount >= fee.min)) message = `최소 ${fee.min.toLocaleString('ko-KR')}원부터 전환돼요`;
+  else if (fee.max != null && amount > fee.max) message = `최대 ${fee.max.toLocaleString('ko-KR')}원까지 계산돼요`;
   else message = '금액을 정확히 입력해 주세요';
 
   return (
@@ -34,6 +35,7 @@ function FeeCalc({ fee }) {
           type="number"
           inputMode="numeric"
           min={fee.min ?? 1}
+          max={fee.max}
           step="1"
           value={value}
           onChange={(e) => setValue(e.target.value)}
