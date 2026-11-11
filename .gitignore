@@ -1,0 +1,8 @@
+.claude/
+./claude-flow/
+.superpowers/
+node_modules/
+dist/
+.vercel/
+assets-src/
+*.zip
