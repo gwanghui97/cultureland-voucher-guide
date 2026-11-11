@@ -48,6 +48,30 @@ test('branch rules', () => {
   assert.deepEqual(getRoute('cu', 'offline').methods.map(m => m.id), ['barcode']);
   assert.equal(getRoute('cu', 'gift18').status, 'unverified');
 });
+test('every combo: methods ids and next', () => {
+  const EXPECT = {
+    'naver:integrated': [['npay'], undefined], 'naver:offline': [[], 'goPlace'],
+    'naver:exchange': [['exchange'], 'retype'], 'naver:gift18': [['npay18'], undefined],
+    'cu:integrated': [['barcode', 'app'], undefined], 'cu:offline': [['barcode'], undefined],
+    'cu:exchange': [['exchange'], 'retype'], 'cu:gift18': [[], undefined],
+  };
+  for (const [k, [ids, next]] of Object.entries(EXPECT)) {
+    const [p, t] = k.split(':'); const r = getRoute(p, t);
+    assert.deepEqual(r.methods.map(m => m.id), ids, k);
+    assert.equal(r.next?.action, next, k);
+    if (['blocked', 'unverified'].includes(r.status)) assert.notEqual(r.primary.action, 'guide', k);
+  }
+  for (const p of ['naver', 'cu']) assert.match(getRoute(p, 'exchange').methods[0].steps[0], /^교환/, p);
+});
+test('matchPlace more aliases', () => {
+  assert.equal(matchPlace('네이버페이로 결제'), 'naver');
+  assert.equal(matchPlace('NAVER'), 'naver');
+  assert.equal(matchPlace(''), null);
+  assert.equal(matchPlace(null), null);
+});
+test('calcPoints 18-digit ignores min', () => {
+  assert.equal(calcPoints(1, { rate: 0.065, min: null }), 0);
+});
 test('sources without url are not confirmed', () => {
   for (const s of Object.values(SOURCES)) if (!s.url) assert.notEqual(s.status, 'confirmed', s.id);
   for (const r of Object.values(ROUTES)) for (const id of r.sourceIds) assert.ok(SOURCES[id], id);
