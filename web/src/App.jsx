@@ -3,26 +3,18 @@ import Home from './screens/Home.jsx';
 import Search from './screens/Search.jsx';
 import TypePick from './screens/TypePick.jsx';
 import Helper from './screens/Helper.jsx';
-import { Header } from './ui.jsx';
-
-// Task 4 에서 Result·Guide·DemoCharge 로 교체한다.
-function Pending({ go, label }) {
-  return (
-    <main className="screen">
-      <Header title={label} onBack={() => go('type')} />
-      <p className="placeholder">{label} (Task 4)</p>
-    </main>
-  );
-}
+import Result from './screens/Result.jsx';
+import Guide from './screens/Guide.jsx';
+import DemoCharge from './screens/DemoCharge.jsx';
 
 const SCREENS = {
   home: Home,
   search: Search,
   type: TypePick,
   helper: Helper,
-  result: (p) => <Pending {...p} label="결과 화면" />,
-  guide: (p) => <Pending {...p} label="사용 방법 화면" />,
-  demoCharge: (p) => <Pending {...p} label="시연 충전 화면" />,
+  result: Result,
+  guide: Guide,
+  demoCharge: DemoCharge,
 };
 
 export default function App() {
