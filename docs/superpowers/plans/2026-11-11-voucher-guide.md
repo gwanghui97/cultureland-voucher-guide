@@ -132,7 +132,7 @@ test('sources without url are not confirmed', () => {
 ### Task 2: 에셋 전처리
 
 **Files:**
-- Create: `scripts/prep_assets.py`, 출력 `web/public/img/logo.png`, `web/public/img/catsh-question.webp`, `catsh-thumb.webp`, `catsh-safety.webp`
+- Create: `scripts/prep_assets.py`, 출력 `web/public/img/logo.png`, `web/public/img/catsh-question.webp`, `kid-thumb.webp`, `catsh-safety.webp`
 
 **Interfaces:**
 - Produces: 위 4개 정적 경로(`/img/...`), Task 3·4 에서 `<img src="/img/...">` 로 사용.
@@ -171,7 +171,7 @@ test('sources without url are not confirmed', () => {
 - Consumes: `getRoute`, `calcPoints`, `SOURCES`, Task 3 `Header/Badge/SourceLine`, `go`.
 
 - [ ] **Step 1: Result** — `route.status` 배지(ok `사용 가능`, via `교환 먼저`, blocked `이 경로는 쓸 수 없어요`, unverified `미확인`), headline, conditions 목록(경고 박스, `catsh-safety.webp`), fee 있으면 계산기: 기본값 10000, `input type="number" inputMode="numeric"`, 결과 `{n.toLocaleString()}P (수수료 {rate*100}%)`, null 이면 fee.min 있을 때 `최소 {min}원부터 전환돼요`, 없으면 `금액을 정확히 입력해 주세요`. CU 면 restricted 를 `결제 전에 확인하세요` 박스로 결과 상단에. `SourceLine`. 주 버튼은 `route.primary` 로만(guide→`go('guide')`, goPlace→`go('type',{placeId})`, external→새 탭). primary 가 guide 가 아니면 사용 방법 화면 진입 버튼 없음. naver:offline 보조 버튼 `다른 사용처 찾기`→`go('search')`. `route.next` 있으면 보조 버튼: goPlace → `go('type',{placeId})`, retype → `go('type')`(placeId 유지). gift18 에서는 로고·캐릭터 숨김, `타 발행사 공식 경로` 라벨.
-- [ ] **Step 2: Guide** — 제목 `{place.name}에서 쓰는 방법`. methods 2개 이상이면 탭(`상품권 바코드` / `앱 바코드`). steps 는 번호 + 체크박스(로컬 상태). exchange 면 마지막에 `받은 상품권 종류 확인하기` 버튼(retype). 보조 버튼 `번호가 인식 안 돼요` → 펼침: `자릿수와 종류를 다시 확인하세요`, `교환권이면 교환소에서 먼저 교환하세요`, `고객센터 1577-2111`. 주 버튼(naver·integrated 류) `지금 충전하러 가기` → `go('demoCharge')`. 완료 영역 `catsh-thumb.webp`. 하단 `다른 사용처도 찾아보기` → `go('search',{placeId:null})`(typeId 유지).
+- [ ] **Step 2: Guide** — 제목 `{place.name}에서 쓰는 방법`. methods 2개 이상이면 탭(`상품권 바코드` / `앱 바코드`). steps 는 번호 + 체크박스(로컬 상태). exchange 면 마지막에 `받은 상품권 종류 확인하기` 버튼(retype). 보조 버튼 `번호가 인식 안 돼요` → 펼침: `자릿수와 종류를 다시 확인하세요`, `교환권이면 교환소에서 먼저 교환하세요`, `고객센터 1577-2111`. 주 버튼(naver·integrated 류) `지금 충전하러 가기` → `go('demoCharge')`. 완료 영역 `kid-thumb.webp`. 하단 `다른 사용처도 찾아보기` → `go('search',{placeId:null})`(typeId 유지).
 - [ ] **Step 3: DemoCharge** — 큰 `시연용` 배지, `실제 충전은 컬쳐랜드 앱에서 진행돼요` 문구, 가짜 PIN 필드 비활성(값 `1234-5678-****-****`), `처음으로` → `go('home',{placeId:null,typeId:null})`.
 - [ ] **Step 4: 확인** — dev 서버 390px·360px 에서 8개 조합 전부 클릭(naver/cu × 4종) + 도우미 경유 1회 + naver:offline→`CU에서 쓰기` + exchange→재선택 시 사용처 유지. 가로 스크롤 없음, 콘솔 오류 0, `npm test` 통과, `npm run build` 성공.
 - [ ] **Step 5: Commit** — `git add -A web && git commit -m "feat: result, guide, demo charge screens"`
