@@ -11,7 +11,7 @@ export const SOURCES = {
   cuHelp: { id: 'cuHelp', name: '컬쳐랜드 상품권 도움말', url: 'https://www.cultureland.co.kr/customer/help/serviceHelp.do?class1=1&class2=1', checkedAt: CHECKED, status: 'confirmed' },
   appBarcode: { id: 'appBarcode', name: '컬쳐랜드 앱 바코드 도움말', url: 'https://www.cultureland.co.kr/customer/help/serviceHelp.do?class1=2&class2=7', checkedAt: CHECKED, status: 'confirmed' },
   // url 확인 중. 찾으면 채우고 status 를 바꾼다
-  npayEnd: { id: 'npayEnd', name: '네이버페이 공지(문화상품권 전환 종료)', url: null, checkedAt: CHECKED, status: 'unverified' },
+  npayEnd: { id: 'npayEnd', name: 'SBS Biz 보도(네이버페이 인용, 2025-03-21)', url: 'https://biz.sbs.co.kr/amp/article/20000224095', checkedAt: CHECKED, status: 'unverified', note: '네이버페이 공식 공지 원문은 로그인 필요로 확인 못 함' },
 };
 
 export const CS = { tel: '15772111', label: '고객센터 1577-2111 (평일 08:00~17:00)' };
@@ -102,7 +102,7 @@ export const ROUTES = {
     status: 'blocked',
     headline: '네이버페이 전환 서비스가 종료되었어요',
     conditions: [
-      '18자리 문화상품권은 2025년 3월 31일 이후 Npay 포인트 전환 서비스를 이용할 수 없어요',
+      '문화상품권 포인트 전환 제휴가 2025년 3월 31일 종료되어 Npay 포인트로 전환할 수 없어요',
       '컬쳐랜드 충전도 안 돼요(지류/온라인문화상품권은 컬쳐캐쉬로 충전 불가)',
       '다른 사용처는 발행사 홈페이지에서 확인하세요',
     ],
