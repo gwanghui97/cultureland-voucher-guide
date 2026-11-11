@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { CS, PLACES, VOUCHER_TYPES } from '../data.js';
+import { CS, PLACES, SEARCH, VOUCHER_TYPES } from '../data.js';
 import { getRoute } from '../logic.js';
 import { ActionButton, Header, RestrictedBox, SourceLine } from '../ui.jsx';
 
-function Steps({ method, checked, toggle }) {
+function Steps({ method, checked, toggle, go }) {
   return (
     <ol className="steps">
       {method.steps.map((step, i) => {
@@ -15,6 +15,11 @@ function Steps({ method, checked, toggle }) {
               <span className="step-num" aria-hidden="true">{i + 1}</span>
               <span>{step}</span>
             </label>
+            {method.demoCharge && i === 0 ? (
+              <button type="button" className="btn btn-primary btn-block" onClick={() => go('demoCharge')}>
+                지금 충전하러 가기
+              </button>
+            ) : null}
           </li>
         );
       })}
@@ -35,9 +40,7 @@ export default function Guide({ state, go }) {
       <main className="screen">
         <Header title="사용 방법" onBack={() => go('result')} />
         <p className="lead">이 조합에는 안내할 사용 방법이 없어요.</p>
-        <button type="button" className="btn btn-primary btn-block" onClick={() => go('search')}>
-          사용처 찾기
-        </button>
+        <ActionButton action={SEARCH} go={go} primary />
       </main>
     );
   }
@@ -45,6 +48,9 @@ export default function Guide({ state, go }) {
   const method = route.methods[tab] ?? route.methods[0];
   const toggle = (key) => setChecked((c) => ({ ...c, [key]: !c[key] }));
   const done = method.steps.every((_, i) => checked[`${method.id}:${i}`]);
+  const retype = route.next?.action === 'retype';
+  // 주 버튼은 하나. 충전·종류 재확인이 없으면 '다른 사용처 찾기'가 주 버튼
+  const searchIsPrimary = !method.demoCharge && !retype;
 
   return (
     <main className="screen">
@@ -83,7 +89,7 @@ export default function Guide({ state, go }) {
       >
         <h3 className="card-title">{method.label}</h3>
         <p className="small">따라 한 단계에 체크해 보세요.</p>
-        <Steps method={method} checked={checked} toggle={toggle} />
+        <Steps method={method} checked={checked} toggle={toggle} go={go} />
         <SourceLine sourceIds={route.sourceIds} />
       </section>
 
@@ -95,12 +101,7 @@ export default function Guide({ state, go }) {
       ) : null}
 
       <div className="stack">
-        {route.demoCharge ? (
-          <button type="button" className="btn btn-primary btn-block" onClick={() => go('demoCharge')}>
-            지금 충전하러 가기
-          </button>
-        ) : null}
-        {route.next?.action === 'retype' ? <ActionButton action={route.next} go={go} primary /> : null}
+        {retype ? <ActionButton action={route.next} go={go} primary /> : null}
 
         <button
           type="button"
@@ -119,9 +120,7 @@ export default function Guide({ state, go }) {
           </div>
         ) : null}
 
-        <button type="button" className="btn-text" onClick={() => go('search', { placeId: null })}>
-          다른 사용처도 찾아보기
-        </button>
+        <ActionButton action={SEARCH} go={go} primary={searchIsPrimary} />
       </div>
     </main>
   );

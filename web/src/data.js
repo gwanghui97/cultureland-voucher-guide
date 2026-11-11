@@ -35,6 +35,8 @@ export const VOUCHER_TYPES = [
 ];
 
 const GUIDE = { label: '사용 방법 보기', action: 'guide' };
+// 끝 화면마다 두는 다음 행동. 사용처 검색으로 가는 버튼 문구는 이것 하나
+export const SEARCH = { label: '다른 사용처 찾기', action: 'search' };
 const RETYPE = { label: '받은 상품권 종류 확인하기', action: 'retype' };
 const GO_CU = { label: 'CU에서 쓰기', action: 'goPlace', placeId: 'cu' };
 const CU_RESTRICTED = ['담배', '택배', '상품권', '복권', 'T머니충전'];
@@ -63,11 +65,11 @@ export const ROUTES = {
     // max: Npay 포인트 최대 보유 한도 200만원
     fee: { rate: 0.06, min: 1000, max: 2000000, sourceId: 'npayCl' },
     primary: GUIDE,
-    // 맞춤 안내 화면의 주 버튼 '지금 충전하러 가기'(시연 화면)
-    demoCharge: true,
     methods: [{
       id: 'npay',
       label: 'Npay 포인트 전환',
+      // 맞춤 안내 화면 1단계(충전) 아래 주 버튼 '지금 충전하러 가기'(시연 화면)
+      demoCharge: true,
       steps: ['컬쳐랜드 앱 충전(PIN 입력)','Npay 포인트 전환', '네이버쇼핑 결제 시 포인트 사용'],
     }],
     sourceIds: ['npayCl', 'npayNotice'],
@@ -79,7 +81,7 @@ export const ROUTES = {
     primary: GO_CU,
     methods: [],
     next: GO_CU,
-    secondary: { label: '다른 사용처 찾기', action: 'search' },
+    secondary: SEARCH,
     sourceIds: ['cuHelp'],
   },
   'naver:exchange': {
@@ -99,7 +101,7 @@ export const ROUTES = {
       '컬쳐랜드 충전도 안 돼요(지류/온라인문화상품권은 컬쳐캐쉬로 충전 불가)',
       '다른 사용처는 발행사 홈페이지에서 확인하세요',
     ],
-    primary: { label: '다른 사용처 찾기', action: 'search' },
+    primary: SEARCH,
     secondary: { label: '발행사 공식 사용처 확인', action: 'external', url: 'https://www.culturegift.co.kr/' },
     methods: [],
     sourceIds: ['npayEnd', 'faq'],
@@ -136,6 +138,7 @@ export const ROUTES = {
     headline: '미확인',
     conditions: ['발행사 공식 안내를 확인하세요'],
     primary: { label: '공식 발행사에서 확인하기', action: 'external', url: SOURCES.gift18.url },
+    secondary: SEARCH,
     methods: [],
     sourceIds: ['gift18'],
   },
