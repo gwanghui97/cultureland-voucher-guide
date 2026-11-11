@@ -1,4 +1,3 @@
-import { Badge } from '../ui.jsx';
 
 const ICONS = {
   barcode: 'M4 6v12M7 6v12M10 6v12M14 6v12M17 6v12M20 6v12',
@@ -30,7 +29,6 @@ export default function Home({ go }) {
       <h1 className="sr-only">문화상품권 사용 길잡이</h1>
       <div className="home-top">
         <img className="logo" src="/img/logo.png" alt="컬쳐랜드" width="193" height="18" />
-        <Badge kind="proposal">앱 적용 제안 목업</Badge>
       </div>
 
       <section className="card stack" aria-label="컬쳐캐쉬 홈 목업">
