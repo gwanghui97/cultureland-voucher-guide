@@ -506,3 +506,26 @@ a:focus-visible {
   text-align: center;
   color: var(--sub);
 }
+
+.block {
+  display: block;
+}
+
+.stack.tight {
+  gap: 6px;
+}
+
+.sample-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.thumb {
+  width: 40px;
+  flex: none;
+}
+
+.header-spacer {
+  width: 8px;
+}

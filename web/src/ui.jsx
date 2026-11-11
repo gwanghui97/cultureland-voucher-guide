@@ -12,7 +12,7 @@ export function Header({ title, onBack }) {
           </svg>
         </button>
       ) : (
-        <span style={{ width: 8 }} />
+        <span className="header-spacer" />
       )}
       {title ? <h1 className="header-title">{title}</h1> : null}
     </header>
