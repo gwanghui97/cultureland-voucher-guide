@@ -16,6 +16,9 @@ export default function TypePick({ state, go }) {
   return (
     <main className="screen">
       <Header title="상품권 종류 확인" onBack={() => go('search')} />
+      {state.query ? (
+        <p className="small">&ldquo;{state.query}&rdquo; → {place.name}에서 쓰는 방법을 찾고 있어요</p>
+      ) : null}
       <div>
         <span className="badge">{place.name} · {place.channel}</span>
       </div>

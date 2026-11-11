@@ -8,13 +8,14 @@ export default function Search({ go }) {
   const [notFound, setNotFound] = useState(false);
   const empty = query.trim() === '';
 
-  const pick = (placeId) => go('type', { placeId });
+  // query: 입력문으로 찾았을 때만 다음 화면에 보여 준다. 칩·버튼이면 null
+  const pick = (placeId, q = null) => go('type', { placeId, query: q });
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (empty) return;
     const placeId = matchPlace(query);
-    if (placeId) pick(placeId);
+    if (placeId) pick(placeId, query.trim());
     else setNotFound(true);
   };
 

@@ -18,7 +18,7 @@ const SCREENS = {
 };
 
 export default function App() {
-  const [state, setState] = useState({ screen: 'home', placeId: null, typeId: null });
+  const [state, setState] = useState({ screen: 'home', placeId: null, typeId: null, query: null });
   const go = (screen, patch) => setState((s) => ({ ...s, ...patch, screen }));
 
   useEffect(() => {

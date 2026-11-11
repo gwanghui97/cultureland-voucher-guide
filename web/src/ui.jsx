@@ -61,7 +61,7 @@ export function ActionButton({ action, go, primary = false }) {
   }
   const handlers = {
     guide: () => go('guide'),
-    goPlace: () => go('type', { placeId: action.placeId, typeId: null }),
+    goPlace: () => go('type', { placeId: action.placeId, typeId: null, query: null }),
     retype: () => go('type', { typeId: null }),
     search: () => go('search'),
   };
