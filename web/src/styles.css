@@ -502,12 +502,6 @@ a:focus-visible {
   color: var(--sub);
 }
 
-.placeholder {
-  padding: 48px 0;
-  text-align: center;
-  color: var(--sub);
-}
-
 .block {
   display: block;
 }
@@ -529,4 +523,123 @@ a:focus-visible {
 
 .header-spacer {
   width: 8px;
+}
+
+/* 결과: 조건 카드 */
+.cond-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cond-list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  word-break: keep-all;
+}
+
+/* 수수료 계산기 */
+.input:disabled {
+  background: var(--muted-bg);
+  color: var(--sub);
+}
+
+.fee-result {
+  font-size: 22px;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.fee-error {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--warn);
+}
+
+/* 안내: 방법 탭 */
+.seg {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: var(--muted-bg);
+}
+
+.seg-btn {
+  flex: 1;
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--sub);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.seg-btn.on {
+  background: var(--card);
+  color: var(--ink);
+}
+
+.seg-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* 안내: 단계 체크리스트 */
+.steps {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  word-break: keep-all;
+  cursor: pointer;
+}
+
+.step input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  accent-color: var(--brand);
+}
+
+.step-num {
+  flex: none;
+  width: 22px;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.step input:checked ~ span:last-child {
+  color: var(--sub);
+  text-decoration: line-through;
+}
+
+.done {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.done img {
+  width: 56px;
+  flex: none;
+}
+
+.demo-badge .badge {
+  font-size: 16px;
+  padding: 6px 14px;
 }

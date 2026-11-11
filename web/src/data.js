@@ -27,7 +27,7 @@ export const VOUCHER_TYPES = [
   { id: 'integrated', name: '통합형 컬쳐랜드상품권', digits: 16, hint: '16자리 컬쳐랜드상품권' },
   { id: 'offline', name: '오프라인 전용 컬쳐랜드상품권', digits: 16, hint: '16자리 컬쳐랜드상품권' },
   { id: 'exchange', name: '교환권', digits: 12, hint: '12자리 교환권 (헌혈기념품 등 12자리 예외 있음)' },
-  { id: 'gift18', name: '지류·온라인 문화상품권', digits: 18, hint: '18자리 지류·온라인 문화상품권' },
+  { id: 'gift18', name: '지류·온라인 문화상품권', digits: 18, hint: '18자리 지류·온라인 문화상품권', otherIssuer: '타 발행사 공식 경로' },
 ];
 
 const GUIDE = { label: '사용 방법 보기', action: 'guide' };
@@ -58,6 +58,8 @@ export const ROUTES = {
     conditions: ['컬쳐캐쉬 충전 → Npay 전환', '안내 수수료 6%(최종 확인 필요)', '최소 1,000원', '휴대폰 본인인증', '명의 일치', '전환 후 취소 불가'],
     fee: { rate: 0.06, min: 1000, sourceId: 'npayCl' },
     primary: GUIDE,
+    // 맞춤 안내 화면의 주 버튼 '지금 충전하러 가기'(시연 화면)
+    demoCharge: true,
     methods: [{
       id: 'npay',
       label: 'Npay 포인트 전환',
@@ -72,6 +74,7 @@ export const ROUTES = {
     primary: GO_CU,
     methods: [],
     next: GO_CU,
+    secondary: { label: '다른 사용처 찾기', action: 'search' },
     sourceIds: ['faq'],
   },
   'naver:exchange': {
