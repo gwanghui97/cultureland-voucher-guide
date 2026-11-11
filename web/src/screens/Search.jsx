@@ -1,12 +1,7 @@
 import { useState } from 'react';
-import { PLACES, SOURCES } from '../data.js';
+import { CATEGORY_CHIPS, PLACES, SOURCES } from '../data.js';
 import { matchPlace } from '../logic.js';
 import { Header } from '../ui.jsx';
-
-const CATEGORY_CHIPS = [
-  { label: '온라인쇼핑', placeId: 'naver' },
-  { label: '편의점', placeId: 'cu' },
-];
 
 export default function Search({ go }) {
   const [query, setQuery] = useState('');

@@ -13,9 +13,14 @@ export const SOURCES = {
 };
 
 export const PLACES = [
-  { id: 'naver', name: '네이버쇼핑', channel: '온라인', category: '쇼핑', aliases: ['네이버쇼핑', '네이버', 'naver', '스마트스토어', 'npay', 'n페이', '네이버페이'] },
+  { id: 'naver', name: '네이버쇼핑', channel: '온라인', category: '쇼핑', intro: 'Npay를 통한 사용 경로가 있어요. 갖고 계신 상품권을 확인해 볼까요?', aliases: ['네이버쇼핑', '네이버', 'naver', '스마트스토어', 'npay', 'n페이', '네이버페이'] },
   // '편의점' 단독·타 편의점은 매칭하지 않는다
-  { id: 'cu', name: 'CU', channel: '오프라인', category: '편의점', aliases: ['cu', '씨유'] },
+  { id: 'cu', name: 'CU', channel: '오프라인', category: '편의점', intro: '바코드로 결제할 수 있어요. 갖고 계신 상품권을 확인해 볼까요?', aliases: ['cu', '씨유'] },
+];
+
+export const CATEGORY_CHIPS = [
+  { label: '온라인쇼핑', placeId: 'naver' },
+  { label: '편의점', placeId: 'cu' },
 ];
 
 export const VOUCHER_TYPES = [

@@ -1,12 +1,6 @@
 import { PLACES, VOUCHER_TYPES } from '../data.js';
 import { Header } from '../ui.jsx';
 
-// 사용처별 안내 문구. data.js 에 필드가 생기면 그쪽으로 옮긴다.
-const INTRO = {
-  naver: 'Npay를 통한 사용 경로가 있어요. 갖고 계신 상품권을 확인해 볼까요?',
-  cu: '바코드로 결제할 수 있어요. 갖고 계신 상품권을 확인해 볼까요?',
-};
-
 export default function TypePick({ state, go }) {
   const place = PLACES.find((p) => p.id === state.placeId);
   if (!place) {
@@ -27,7 +21,7 @@ export default function TypePick({ state, go }) {
       <div>
         <span className="badge">{place.name} · {place.channel}</span>
       </div>
-      <h2 className="title">{INTRO[place.id]}</h2>
+      <h2 className="title">{place.intro}</h2>
 
       <section className="stack" aria-label="상품권 종류">
         {VOUCHER_TYPES.map((t) => (
