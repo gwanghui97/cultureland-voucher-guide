@@ -21,7 +21,7 @@ function FeeCalc({ fee }) {
   if (points != null) message = `${points.toLocaleString('ko-KR')}P (수수료 ${percent(fee.rate)}%)`;
   // 1000.5 처럼 최소 금액은 넘지만 정수가 아닌 값은 '정확히' 문구로
   else if (fee.min != null && !(amount >= fee.min)) message = `최소 ${fee.min.toLocaleString('ko-KR')}원부터 전환돼요`;
-  else if (fee.max != null && amount > fee.max) message = `최대 ${fee.max.toLocaleString('ko-KR')}원까지 계산돼요`;
+  else if (fee.max != null && amount > fee.max) message = `Npay 포인트 최대 보유 한도(${fee.max.toLocaleString("ko-KR")}원)까지만 계산돼요`;
   else message = '금액을 정확히 입력해 주세요';
 
   return (
